@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#17112b">
+<title>LoveMeter ❤️</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;padding:24px 16px;
+  display:grid;place-items:center;
+  font-family:Arial,sans-serif;color:white;
+  background:radial-gradient(circle at top,#48234f,#100d1d 70%);
+}
+.card{
+  width:100%;max-width:400px;padding:28px 22px;
+  text-align:center;border:1px solid #ffffff25;
+  border-radius:25px;background:#201a35;
+  box-shadow:0 20px 60px #0006;
+}
+.logo{font-size:48px}
+h1{margin:8px 0;font-size:34px}
+p{color:#d3c9e3;line-height:1.6;font-size:14px}
+button{
+  width:100%;padding:15px;margin-top:12px;
+  border:0;border-radius:13px;font-size:15px;
+  font-weight:bold;cursor:pointer;
+  background:linear-gradient(100deg,#ff70b5,#b39aff);
+  color:#20132b;
+}
+.secondary{background:#ffffff12;color:white;border:1px solid #ffffff30}
+#result{display:none}
+#score{font-size:54px;font-weight:900;color:#ff8fc5}
+.heart{font-size:54px;animation:pulse 1s infinite alternate}
+@keyframes pulse{to{transform:scale(1.12)}}
+.small{font-size:11px;color:#aaa0bd}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="logo">💘</div>
+  <h1>LoveMeter</h1>
+  <p>The ultimate love compatibility test.<br>
+  Are you two really meant to be?</p>
+
+  <section id="start">
+    <div class="heart">❤️</div>
+    <p>Our advanced love algorithm is ready to reveal your destiny.</p>
+    <button onclick="testLove()">Reveal My Love Score</button>
+  </section>
+
+  <section id="result" aria-live="polite">
+    <p>YOUR OFFICIAL LOVE SCORE</p>
+    <div id="score">100%</div>
+    <h2 id="heading">Soulmates detected!</h2>
+    <p id="message"></p>
+    <button onclick="sharePrank()">Share This Prank ↗</button>
+    <button class="secondary" onclick="again()">Test Again</button>
+    <p class="small">😂 Gotcha! This is a random joke, not a real love test.</p>
+  </section>
+
+  <p class="small">No login. No names required. No personal data collected.</p>
+</main>
+
+<script>
+const jokes = [
+  ["100%","Soulmates detected! 😂",
+   "The algorithm says you are perfect together. Your Wi-Fi connection agrees."],
+  ["3%","Friend-zone alert 💀",
+   "Even Cupid has left you on read. Better luck next time!"],
+  ["87%","Rom-com material 💕",
+   "You are one shared pizza away from a movie romance."],
+  ["52%","It's complicated 😭",
+   "Your love story needs three seasons and a plot twist."],
+  ["404","Love not found 🤖",
+   "Error 404: Love not found. Try restarting your crush."]
+];
+
+function testLove(){
+  document.getElementById("start").style.display="none";
+  const result=document.getElementById("result");
+  result.style.display="block";
+  document.getElementById("score").textContent="...";
+  document.getElementById("heading").textContent="Analyzing chemistry...";
+  document.getElementById("message").textContent=
+    "Consulting the extremely serious heart calculator...";
+  setTimeout(()=>{
+    const joke=jokes[Math.floor(Math.random()*jokes.length)];
+    document.getElementById("score").textContent=joke[0]+"%";
+    document.getElementById("heading").textContent=joke[1];
+    document.getElementById("message").textContent=joke[2];
+  },1800);
+}
+
+function again(){
+  document.getElementById("result").style.display="none";
+  document.getElementById("start").style.display="block";
+}
+
+async function sharePrank(){
+  const data={
+    title:"LoveMeter ❤️",
+    text:"Try this seriously unserious love test 😂",
+    url:location.href
+  };
+  try{
+    if(navigator.share) await navigator.share(data);
+    else{
+      await navigator.clipboard.writeText(data.text+" "+data.url);
+      alert("Link copied! Share it with your friends.");
+    }
+  }catch(e){
+    if(e.name!=="AbortError")
+      prompt("Copy this link:",location.href);
+  }
+}
+</script>
+</body>
+</html>
